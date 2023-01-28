@@ -1,17 +1,7 @@
 package task3
 
-import (
-	"elma_test/internal"
-)
+import "github.com/Kupstas/elma_test/internal/list"
 
-func ReverseLinkedList(list internal.List) internal.List {
-	newList := internal.NewList()
-
-	back := list.Front()
-	for back != nil {
-		newList.PushFront(back.Value)
-		back = back.Next
-	}
-
-	return newList
+func ReverseLinkedList[T any](l list.List[T]) {
+	l.Reverse()
 }

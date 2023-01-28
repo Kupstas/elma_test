@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"fmt"
 
-	"elma_test/internal"
-	"elma_test/task1"
-	"elma_test/task2"
-	"elma_test/task3"
-	"elma_test/tast4"
+	"github.com/Kupstas/elma_test/internal/list"
+	"github.com/Kupstas/elma_test/task1"
+	"github.com/Kupstas/elma_test/task2"
+	"github.com/Kupstas/elma_test/task3"
+	"github.com/Kupstas/elma_test/tast4"
 )
 
 func main() {
@@ -41,14 +41,15 @@ func t2() {
 }
 
 func t3() {
-	list := internal.NewList()
-	list.PushFront("1")
-	list.PushFront("2")
-	list.PushFront("3")
+	list := list.New[string]()
+	list.Add("1")
+	list.Add("2")
+	list.Add("3")
 
 	fmt.Println("task3:")
 	fmt.Printf("\tlist: %s\n", list)
-	fmt.Printf("\tres: %s\n", task3.ReverseLinkedList(list))
+	task3.ReverseLinkedList(list)
+	fmt.Printf("\tres: %s\n", list)
 }
 
 func t4() {

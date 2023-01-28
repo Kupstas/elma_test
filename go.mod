@@ -1,4 +1,4 @@
-module elma_test
+module github.com/Kupstas/elma_test
 
 go 1.19
 

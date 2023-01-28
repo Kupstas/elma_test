@@ -3,31 +3,35 @@ package task3
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/Kupstas/elma_test/internal/list"
 
-	"elma_test/internal"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestReverseLinkedList(t *testing.T) {
-	list := internal.NewList()
-	list.PushFront("1")
-	list.PushFront("2")
-	list.PushFront("3")
-	list.PushFront("4")
+	l := list.New[string]().
+		Add("1").
+		Add("2").
+		Add("3").
+		Add("4")
 
-	res := internal.NewList()
-	res.PushFront("4")
-	res.PushFront("3")
-	res.PushFront("2")
-	res.PushFront("1")
+	res := list.New[string]().
+		Add("4").
+		Add("3").
+		Add("2").
+		Add("1")
 
-	reversed := ReverseLinkedList(list)
-	item := reversed.Front()
-	item2 := res.Front()
+	ReverseLinkedList(l)
 
-	for item != nil {
-		assert.Equal(t, item.Value, item2.Value)
-		item = item.Next
-		item2 = item2.Next
+	reversedItems := make([]string, 0, l.Len())
+	for v := range l.Iterate() {
+		reversedItems = append(reversedItems, v)
 	}
+
+	originItems := make([]string, 0, res.Len())
+	for v := range res.Iterate() {
+		originItems = append(originItems, v)
+	}
+
+	assert.Equal(t, reversedItems, originItems)
 }

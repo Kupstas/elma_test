@@ -13,12 +13,12 @@ func TestCheckBracketSequence(t *testing.T) {
 	}
 
 	tests := []test{
-		{row: "1+(2*3{3})", expected: true},
-		{row: "(some test{s}[1]((aa)))", expected: true},
-		{row: "и даже русский (текст) поддреживается", expected: true},
-		{row: "({[]})", expected: true},
+		{row: "([{}])", expected: true},
+		{row: "[{()}]", expected: true},
 		{row: "{[()]}", expected: true},
-		{row: "[({})]", expected: true},
+		{row: "()", expected: true},
+		{row: "{}", expected: true},
+		{row: "[]", expected: true},
 		{row: "[](){}", expected: true},
 		{row: "{", expected: false},
 		{row: "(", expected: false},

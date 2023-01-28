@@ -5,72 +5,59 @@ import (
 	"io"
 	"strconv"
 	"strings"
+
+	"github.com/Kupstas/elma_test/internal/list"
 )
 
 type (
 	Stack struct {
-		max  int
-		val  int
-		size int
-		elem *item
-	}
-
-	item struct {
-		val  int
-		next *item
+		max int
+		l   list.List[int]
 	}
 )
+
+func NewStack() *Stack {
+	return &Stack{
+		l: list.New[int](),
+	}
+}
 
 func (s *Stack) Add(elem int) {
 	if elem > s.max {
 		s.max = elem
 	}
 
-	str := &item{
-		val:  elem,
-		next: s.elem,
-	}
-
-	s.elem = str
-	s.size++
+	s.l.Add(elem)
 }
 
 func (s *Stack) Remove() {
-	s.elem = s.elem.next
-	el := s.elem
-	max := el.val
+	s.l.Remove()
 
-	for el != nil {
-		if el.val > max {
-			max = el.val
+	v, _ := s.l.Get()
+	newMax := *v
+	for v := range s.l.Iterate() {
+		if v > newMax {
+			newMax = v
 		}
-
-		el = el.next
 	}
-	s.max = max
-	s.size--
+
+	s.max = newMax
+	fmt.Println(s)
 }
 
 func (s *Stack) PrintMax(writer io.Writer) {
 	fmt.Fprint(writer, s.max)
 }
 
-func NewStack() *Stack {
-	return &Stack{}
-}
-
 func (s *Stack) String() string {
 	builder := strings.Builder{}
-	el := s.elem
 	builder.WriteString("{")
 
-	for el != nil {
-		builder.WriteString(strconv.Itoa(el.val))
-		el = el.next
-		if el != nil {
-			builder.WriteString(", ")
-		}
+	for v := range s.l.Iterate() {
+		builder.WriteString(strconv.Itoa(v))
+		builder.WriteString(", ")
 	}
+
 	builder.WriteString("}")
 	return builder.String()
 }
