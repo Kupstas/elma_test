@@ -19,7 +19,7 @@ func main() {
 }
 
 func t1() {
-	row := "(some test{s}[1]((aa)))"
+	row := "({}[](()))"
 	check := task1.CheckBracketSequence(row)
 	res := "NO"
 	if check {
@@ -41,10 +41,10 @@ func t2() {
 }
 
 func t3() {
-	list := list.New[string]()
-	list.Add("1")
-	list.Add("2")
-	list.Add("3")
+	list := list.New[string]().
+		Add("1").
+		Add("2").
+		Add("3")
 
 	fmt.Println("task3:")
 	fmt.Printf("\tlist: %s\n", list)

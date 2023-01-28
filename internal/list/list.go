@@ -1,7 +1,13 @@
 package list
 
+import (
+	"fmt"
+	"strings"
+)
+
 type (
 	List[T any] interface {
+		fmt.Stringer
 		Remove()
 		Reverse()
 		Add(v T) List[T]
@@ -68,12 +74,32 @@ func (l *list[T]) Reverse() {
 
 func (l *list[T]) Iterate() chan T {
 	ch := make(chan T)
+	data := make([]T, l.size)
+
+	i := 0
+	for curr := l.head; curr != nil; curr = curr.next {
+		data[l.size-i-1] = curr.value
+		i++
+	}
+
 	go func() {
-		for curr := l.head; curr != nil; curr = curr.next {
-			ch <- curr.value
+		for _, d := range data {
+			ch <- d
 		}
 		close(ch)
 	}()
 
 	return ch
+}
+
+func (l *list[T]) String() string {
+	builder := strings.Builder{}
+	builder.WriteString("{")
+
+	for v := range l.Iterate() {
+		builder.WriteString(fmt.Sprintf("%v, ", v))
+	}
+
+	builder.WriteString("}")
+	return builder.String()
 }

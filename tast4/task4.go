@@ -3,14 +3,13 @@ package tast4
 import (
 	"fmt"
 	"io"
-	"strconv"
-	"strings"
 
 	"github.com/Kupstas/elma_test/internal/list"
 )
 
 type (
 	Stack struct {
+		fmt.Stringer
 		max int
 		l   list.List[int]
 	}
@@ -50,14 +49,5 @@ func (s *Stack) PrintMax(writer io.Writer) {
 }
 
 func (s *Stack) String() string {
-	builder := strings.Builder{}
-	builder.WriteString("{")
-
-	for v := range s.l.Iterate() {
-		builder.WriteString(strconv.Itoa(v))
-		builder.WriteString(", ")
-	}
-
-	builder.WriteString("}")
-	return builder.String()
+	return s.l.String()
 }
